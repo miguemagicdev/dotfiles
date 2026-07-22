@@ -5,6 +5,8 @@ local plugins = {
   require("plugins.treesitter"),
   require("plugins.lsp"),
   require("plugins.cmp"),
+  require("plugins.nvim-cmp"),
+  require("plugins.luasnip"),
   require("plugins.autopairs"),
   require("plugins.vimtex"),
   require("plugins.lualine"),
