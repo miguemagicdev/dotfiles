@@ -5,7 +5,7 @@ vim.g.mapleader = " "
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.termguicolors = true
-vim.opt.mouse = 'a'
+vim.opt.mouse = "a"
 vim.opt.completeopt = "menu,menuone,noselect"
 vim.opt.clipboard = "unnamedplus"
 
