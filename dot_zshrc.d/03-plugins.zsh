@@ -1,24 +1,49 @@
 #!/usr/bin/env zsh
 
 # ================================
-# 3. PLUGINS
+# 4. PLUGINS
 # ================================
 
-# Clone plugins if they don't exist
-ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.zsh}"
-if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
-    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+# --------------------------------
+# zinit (Zsh Plugin Manager)
+# --------------------------------
+
+# Auto-install zinit on first run
+ZINIT_HOME="${ZINIT_HOME:-$HOME/.zinit}"
+if [[ ! -f "$ZINIT_HOME/bin/zinit.zsh" ]]; then
+    git clone --depth=1 https://github.com/zdharma-continuum/zinit "$ZINIT_HOME/bin"
 fi
+source "$ZINIT_HOME/bin/zinit.zsh"
 
-if [[ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]]; then
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
-fi
+# --------------------------------
+# Plugins
+# --------------------------------
 
-# Source Plugins
-source "$ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# Powerlevel10k theme
+zinit ice depth=1; zinit light romkatv/powerlevel10k
 
-# Source Themes
-source "$ZSH_CUSTOM/themes/powerlevel10k/powerlevel10k.zsh-theme"
+# Autosuggestions
+zinit light zsh-users/zsh-autosuggestions
+
+# Syntax highlighting
+zinit light zsh-users/zsh-syntax-highlighting
+
+# --------------------------------
+# zsh-autopair
+# --------------------------------
+
+zinit light hlissner/zsh-autopair
+
+# --------------------------------
+# zsh-completions
+# --------------------------------
+
+zinit ice as"completion"
+zinit light zsh-users/zsh-completions
+
+# --------------------------------
+# P10K configuration
+# --------------------------------
 
 # Use local P10K configuration if exists
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
