@@ -38,3 +38,9 @@ export SDKMAN_DIR="$HOME/.sdkman"
 # Source the env file for
 # Cargo to work
 . "$HOME/.cargo/env"
+
+# --------------------------------
+# Fixes for builds
+# --------------------------------
+
+export OPENSSL_NO_VENDOR=1 # Fixes Neovim avante.nvim build process
