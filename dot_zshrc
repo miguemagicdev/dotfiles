@@ -4,6 +4,9 @@
 # Migue's Personal Zsh Configuration
 # ================================
 
+# Don't source this file if not interactive
+[[ -o interactive ]] || return
+
 # Source all .zshrc.d files if they exist
 if [ -d ~/.zshrc.d ]; then
     for rc in ~/.zshrc.d/*; do
