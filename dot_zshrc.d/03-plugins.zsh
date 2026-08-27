@@ -19,31 +19,25 @@ source "$ZINIT_HOME/bin/zinit.zsh"
 # Plugins
 # --------------------------------
 
-# Powerlevel10k theme
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-
 # Autosuggestions
+zinit ice wait"0" lucid
 zinit light zsh-users/zsh-autosuggestions
 
 # Syntax highlighting
+zinit ice wait"0" lucid
 zinit light zsh-users/zsh-syntax-highlighting
 
-# --------------------------------
-# zsh-autopair
-# --------------------------------
-
+# Tag Autopairs
+zinit ice wait"0" lucid
 zinit light hlissner/zsh-autopair
 
-# --------------------------------
-# zsh-completions
-# --------------------------------
-
-zinit ice as"completion"
+# Completions
+zinit ice wait"1" as"completion" lucid
 zinit light zsh-users/zsh-completions
 
-# --------------------------------
-# P10K configuration
-# --------------------------------
+# Powerlevel10k theme
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit light romkatv/powerlevel10k
 
 # Use local P10K configuration if exists
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

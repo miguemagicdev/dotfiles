@@ -7,40 +7,26 @@
 # --------------------------------
 # Bitwarden SSH Agent
 # --------------------------------
-
-# Integration with Bitwarden's SSH Agent
-export SSH_AUTH_SOCK="$HOME/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock"
+export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
 
 # --------------------------------
 # NVM (Node Version Manager)
 # --------------------------------
-
-# NVM Home Directory
 export NVM_DIR="$HOME/.nvm"
-
-# NVM Bash Completion
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# --------------------------------
-# SDKMAN
-# --------------------------------
-export SDKMAN_DIR="$HOME/.sdkman"
-
-# Initialization script required for
-# SDKMAN to work
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # --------------------------------
 # Cargo
 # --------------------------------
+lazy_load_cargo() {
+  unfunction cargo 2>/dev/null
+  [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+}
 
-# Source the env file for
-# Cargo to work
-. "$HOME/.cargo/env"
+cargo() { lazy_load_cargo && cargo "$@"; }
 
 # --------------------------------
-# Fixes for builds
+# Improvements for builds
 # --------------------------------
-
-export OPENSSL_NO_VENDOR=1 # Fixes Neovim avante.nvim build process
+export OPENSSL_NO_VENDOR=1

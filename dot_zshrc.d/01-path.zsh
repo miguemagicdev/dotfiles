@@ -5,7 +5,7 @@
 # ================================
 
 # User local bin directories
-typeset -U PATH  # Remove duplicates
+typeset -U PATH
 path=(
     "$HOME/.local/bin"
     "$HOME/bin"
@@ -14,23 +14,9 @@ path=(
 )
 
 # --------------------------------
-# Java
-# --------------------------------
-
-# Java Home Directory
-export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
-
-# Make the Java binaries available
-path=("$JAVA_HOME/bin" $path)
-
-# --------------------------------
 # Android SDK
 # --------------------------------
-
-# Root Directory of Android SDK
 export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
-
-# Home Directory of Android SDK (same as Root Directory)
 export ANDROID_HOME="$HOME/Android/Sdk"
 path=(
     "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin"
@@ -39,4 +25,23 @@ path=(
     $path
 )
 
+# --------------------------------
+# Java
+# --------------------------------
+
+# Initialize SDKMAN
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# Cache Java home to avoid repeated lookups
+JAVA_CACHE="$HOME/.cache/java-home"
+if [[ -f "$JAVA_CACHE" ]]; then
+    export JAVA_HOME=$(cat "$JAVA_CACHE")
+else
+    mkdir -p "$HOME/.cache"
+    export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+    echo "$JAVA_HOME" > "$JAVA_CACHE"
+fi
+
+path=("$JAVA_HOME/bin" $path)
 export PATH

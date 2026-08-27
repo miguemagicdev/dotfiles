@@ -5,6 +5,16 @@
 # ================================
 
 # --------------------------------
+# Profiling
+# --------------------------------
+
+# Load zprof module
+# zmodload zsh/zprof
+
+# Start profiling
+# zprof
+
+# --------------------------------
 # ZSH options
 # --------------------------------
 setopt AUTO_CD              	# cd by typing directory name
