@@ -7,6 +7,18 @@
 # Don't source this file if not interactive
 [[ -o interactive ]] || return
 
+# Open TMUX in a interactive shell instance
+# This is a quatility-of-life improvement.
+if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ -z "$SSH_CONNECTION" ]; then
+    if tmux has-session -t main 2>/dev/null; then
+        # Attach if session exists
+        tmux attach-session -t main
+    else
+        # Create a session if no session
+        tmux new-session -s main
+    fi
+fi
+
 # Source all .zshrc.d files if they exist
 if [ -d ~/.zshrc.d ]; then
     for rc in ~/.zshrc.d/*; do
