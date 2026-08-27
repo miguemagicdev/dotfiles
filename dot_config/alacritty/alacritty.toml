@@ -1,0 +1,56 @@
+# ================================
+# MY ALACRITTY CONFIGURATION
+# ================================
+
+# --------------------------------
+# Font Configuration
+# --------------------------------
+
+[font]
+# Font size in points
+size = 9
+
+# Normal font face
+normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+
+# Bold font face
+bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
+
+# Italic font face
+italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
+
+# Bold Italic font face
+bold_italic = { family = "JetBrainsMono Nerd Font", style = "Bold Italic" }
+
+# --------------------------------
+# Cursor Configuration
+# --------------------------------
+
+[cursor]
+style = "Block"
+
+unfocused_hollow = true
+
+blink_interval = 750
+blink_timeout = 5
+
+# --------------------------------
+# Clipboard Configuration
+# --------------------------------
+
+[selection]
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
+
+# Save selections to clipboard when using mouse
+save_to_clipboard = false
+
+# --------------------------------
+# Theme Configuration
+# --------------------------------
+
+[general]
+
+import = [
+  # IBM Carbon Theme
+  "~/.config/alacritty/themes/themes/oxocarbon.toml",
+]
