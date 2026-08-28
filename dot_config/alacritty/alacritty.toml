@@ -35,6 +35,13 @@ blink_interval = 750
 blink_timeout = 5
 
 # --------------------------------
+# Cursor Configuration
+# --------------------------------
+
+[window]
+padding = { x = 0, y = 0 } # Removes padding on all sides
+
+# --------------------------------
 # Clipboard Configuration
 # --------------------------------
 
