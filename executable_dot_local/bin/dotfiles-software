@@ -1,0 +1,103 @@
+#!/bin/bash
+
+# Script to install packages via Ansible playbook
+
+set -euo pipefail
+
+# Define the Ansible playbook path
+readonly PLAYBOOK_PATH="${HOME}/.local/chezmoi/ansible/install-packages.yml"
+
+# Function to check if Ansible is installed
+check_ansible() {
+    if ! command -v ansible-playbook >/dev/null 2>&1; then
+        printf "Ansible is not installed or not in PATH"
+        return 1
+    fi
+    return 0
+}
+
+# Function to check if playbook exists
+check_playbook() {
+    if [[ ! -f "${PLAYBOOK_PATH}" ]]; then
+        printf "Ansible playbook not found at: ${PLAYBOOK_PATH}"
+        printf "Please ensure the playbook exists at the expected location"
+        return 1
+    fi
+    return 0
+}
+
+# Function to prompt user for confirmation
+prompt_user() {
+    local response
+    local prompt_msg="Do you want to install the dotfiles software using Ansible? (y/n) "
+    
+    while true; do
+        read -r -p "$(echo -e \"${prompt_msg}\")" response
+        case "${response}" in
+            [yY]|[yY][eE][sS])
+                return 0
+                ;;
+            [nN]|[nN][oO]|"")
+                return 1
+                ;;
+            *)
+                printf "Please answer yes or no"
+                ;;
+        esac
+    done
+}
+
+# Function to run the Ansible playbook
+run_playbook() {
+    printf "Running Ansible playbook: ${PLAYBOOK_PATH}"
+    printf "This may require sudo privileges..."
+    echo
+    
+    if ansible-playbook -i localhost, -c local "${PLAYBOOK_PATH}"; then
+        printf "Ansible playbook executed successfully"
+        return 0
+    else
+        printf "Ansible playbook execution failed"
+        return 1
+    fi
+}
+
+# Main script execution
+main() {    
+    # Check prerequisites
+    printf "Checking prerequisites..."
+    if ! check_ansible; then
+        exit 1
+    fi
+    
+    if ! check_playbook; then
+        exit 1
+    fi
+    printf "Prerequisites check passed"
+    echo
+    
+    # Prompt user
+    if prompt_user; then
+        echo
+        printf "Starting installation..."
+        echo
+        
+        # Run the playbook
+        if run_playbook; then
+            echo
+            printf "Installation completed successfully!"
+            exit 0
+        else
+            echo
+            printf "Installation failed!"
+            exit 1
+        fi
+    else
+        echo
+        printf "Installation cancelled by user."
+        exit 0
+    fi
+}
+
+# Run main function
+main "$@"
