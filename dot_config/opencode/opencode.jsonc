@@ -1,0 +1,99 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "deepseek/deepseek-v4-pro",
+
+  // Require approval for write operations
+  "permission": {
+    "*": "ask",
+
+    // Prefer the filesystem MCP server over native filesystem tools
+    "read": "deny",
+    "edit": "deny",
+    "write": "deny",
+    "glob": "deny",
+    "grep": "deny",
+    "list": "deny",
+
+    "delete": "ask",
+    "execute": "ask",
+    "bash": "ask",
+    "webfetch": "allow",
+    "tavily*": "allow",
+    "context7*": "allow",
+    "sequentialthinking*": "allow",
+
+    // Filesystem MCP: reads are allowed, writes require approval
+    "filesystem_read*": "allow",
+    "filesystem_list*": "allow",
+    "filesystem_directory_tree": "allow",
+    "filesystem_search_files": "allow",
+    "filesystem_get_file_info": "allow",
+    "filesystem_write_file": "ask",
+    "filesystem_edit_file": "ask",
+    "filesystem_create_directory": "ask",
+    "filesystem_move_file": "ask",
+  },
+
+  // MCP Servers
+  "mcp": {
+    "memory": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-memory"],
+      "enabled": true,
+    },
+    "sequentialthinking": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking",
+      ],
+      "enabled": true,
+    },
+    "filesystem": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "."],
+      "enabled": true,
+    },
+    "tavily": {
+      "type": "local",
+      "command": ["npx", "-y", "tavily-mcp"],
+      "environment": {
+        "TAVILY_API_KEY": "{env:TAVILY_API_KEY}",
+      },
+      "enabled": true,
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true,
+    },
+    "github": {
+      "type": "local",
+      "command": [
+        "podman",
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "-e",
+        "GITHUB_READ_ONLY",
+        "ghcr.io/github/github-mcp-server",
+      ],
+      "environment": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}",
+        "GITHUB_READ_ONLY": "true",
+      },
+      "enabled": false,
+    },
+    "gitlab": {
+      "type": "local",
+      "command": ["npx", "-y", "@yoda.digital/gitlab-mcp-server"],
+      "environment": {
+        "GITLAB_PERSONAL_ACCESS_TOKEN": "{env:GITLAB_PERSONAL_ACCESS_TOKEN}",
+      },
+      "enabled": false,
+    },
+  },
+}

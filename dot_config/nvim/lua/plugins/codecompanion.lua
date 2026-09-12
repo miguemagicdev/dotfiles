@@ -9,108 +9,32 @@ return {
     },
     lazy = false,
     opts = {
-      adapter = {
-        deepseek = function()
-          return require("codecompanion.adapters").extend("deepseek", {
-            use_tools = true,
-            env = {
-              api_key = os.getenv("DEEPSEEK_API_KEY"),
-            },
-          })
-        end,
-      },
-      default_adapter = "deepseek",
-      strategies = {
+      interactions = {
         chat = {
-          adapter = "deepseek",
-          model = "deepseek-v4-pro",
+          adapter = "opencode",
+          model = "deepseek/deepseek-v4-pro",
         },
         inline = {
-          adapter = "deepseek",
-          model = "deepseek-v4-flash",
+          adapter = "opencode",
+          model = "deepseek/deepseek-v4-pro",
+        },
+        cli = {
+          agent = "opencode",
+          agents = {
+            opencode = {
+              cmd = "opencode",
+              args = {},
+              description = "OpenCode CLI agent",
+              provider = "terminal",
+            },
+          },
+        },
+        shared = {
           keymaps = {
             accept_change = { modes = { n = "gda" } },
             reject_change = { modes = { n = "gdr" } },
             always_accept = { modes = { n = "gdy" } },
           },
-        },
-      },
-      mcp = {
-        default_tool_opts = {
-          require_approval_before = true,
-        },
-        servers = {
-          grep = {
-            cmd = { "uvx", "mcp-server-grep" },
-            disabled = false,
-          },
-          memory = {
-            cmd = { "npx", "-y", "@modelcontextprotocol/server-memory" },
-            disabled = false,
-          },
-          fetch = {
-            cmd = { "uvx", "mcp-server-fetch" },
-            disabled = false,
-          },
-          filesystem = {
-            cmd = { "npx", "-y", "@modelcontextprotocol/server-filesystem", vim.fn.getcwd() },
-            disabled = false,
-          },
-          sequentialthinking = {
-            cmd = { "npx", "-y", "@modelcontextprotocol/server-sequential-thinking" },
-            disabled = false,
-          },
-          tavily = {
-            cmd = { "npx", "-y", "tavily-mcp" },
-            env = {
-              TAVILY_API_KEY = os.getenv("TAVILY_API_KEY") or "",
-            },
-            disabled = not os.getenv("TAVILY_API_KEY"),
-          },
-          context7 = {
-            cmd = { "npx", "-y", "@upstash/context7-mcp@latest" },
-            disabled = false,
-          },
-          git = {
-            cmd = { "uvx", "mcp-server-git", "--repository", vim.fn.getcwd() },
-            disabled = false,
-          },
-          npm = {
-            cmd = { "npx", "-y", "@modelcontextprotocol/server-npm" },
-            disabled = false,
-          },
-          github = {
-            cmd = {
-              "podman",
-              "run",
-              "-i",
-              "--rm",
-              "-e",
-              "GITHUB_PERSONAL_ACCESS_TOKEN",
-              "-e",
-              "GITHUB_READ_ONLY",
-              "ghcr.io/github/github-mcp-server",
-            },
-            env = {
-              GITHUB_PERSONAL_ACCESS_TOKEN = os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN"),
-              GITHUB_READ_ONLY = "true",
-            },
-            disabled = not os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN"),
-          },
-          gitlab = {
-            cmd = { "npx", "-y", "@yoda.digital/gitlab-mcp-server" },
-            env = {
-              GITLAB_PERSONAL_ACCESS_TOKEN = os.getenv("GITLAB_PERSONAL_ACCESS_TOKEN"),
-            },
-            disabled = not os.getenv("GITLAB_PERSONAL_ACCESS_TOKEN"),
-          },
-          neovim = {
-            disabled = true,
-          },
-        },
-        opts = {
-          default_servers = { "fetch", "tavily", "memory", "filesystem", "context7", "git", "sequentialthinking" },
-          auto_start = true,
         },
       },
       extensions = {
@@ -131,10 +55,6 @@ return {
             full_height = true,
             position = "right",
           },
-        },
-        diff = {
-          provider = "default",
-          opts = { "internal", "filler", "algorithm:histogram" },
         },
       },
       prompt_library = {
