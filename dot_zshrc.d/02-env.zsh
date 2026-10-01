@@ -21,6 +21,11 @@ npm() { lazy_load_nvm && npm "$@"; }
 npx() { lazy_load_nvm && npx "$@"; }
 node() { lazy_load_nvm && node "$@"; }
 
+# --------------------------------
+# Podman
+# --------------------------------
+export DOCKER_HOST=unix:///run/user/$(id -u)/podman/podman.sock
+
 
 # --------------------------------
 # Cargo
