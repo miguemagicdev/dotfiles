@@ -12,14 +12,9 @@ export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
 # --------------------------------
 # NVM (Node Version Manager)
 # --------------------------------
-lazy_load_nvm() {
-  unfunction npm npx node 2>/dev/null
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-}
-npm() { lazy_load_nvm && npm "$@"; }
-npx() { lazy_load_nvm && npx "$@"; }
-node() { lazy_load_nvm && node "$@"; }
+
 
 # --------------------------------
 # Podman
@@ -30,12 +25,7 @@ export DOCKER_HOST=unix:///run/user/$(id -u)/podman/podman.sock
 # --------------------------------
 # Cargo
 # --------------------------------
-lazy_load_cargo() {
-  unfunction cargo 2>/dev/null
-  [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
-}
-
-cargo() { lazy_load_cargo && cargo "$@"; }
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 # --------------------------------
 # Improvements for builds

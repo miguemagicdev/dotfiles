@@ -12,11 +12,9 @@ return {
       interactions = {
         chat = {
           adapter = "opencode",
-          model = "deepseek/deepseek-v4-pro",
         },
         inline = {
           adapter = "opencode",
-          model = "deepseek/deepseek-v4-pro",
         },
         cli = {
           agent = "opencode",
